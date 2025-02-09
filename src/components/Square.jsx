@@ -1,11 +1,16 @@
-function Square({ value, onSquareClick, isWinner }) {
+function Square({ value, onSquareClick, xIsNext}) {
+    let hoverClass = null;
+    if(value == null && xIsNext !== null){
+        hoverClass = xIsNext ? "x-hover" : "o-hover";
+    }
+
     return (
-        <button 
-        className={isWinner ? "square winner" : "square"}
+        <div 
+        className={`square ${hoverClass}`}
         onClick={onSquareClick} 
         >
             { value }
-        </button>
+        </div>
     ); 
 }
 
