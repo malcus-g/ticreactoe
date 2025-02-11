@@ -55,6 +55,12 @@ function Game() {
         handlePlay(newSquares);
     }
 
+    function handleReset() {
+        setHistory([Array(9).fill(null)]);
+        setCurrentMove(0);
+        setStrikeClass(null);
+    }
+
     function handlePlay(newSquares) {
         const newHistory = [...history.slice(0, currentMove + 1), newSquares];
         setHistory(newHistory);
@@ -86,6 +92,7 @@ function Game() {
             onJumpTo={jumpTo}
             strikeClass={strikeClass}
             squares={squares}
+            onHandleReset={handleReset}
         />
     </div>
     );

@@ -1,4 +1,4 @@
-function GameInfo({ isHistoryAsc, onHandleSort, history, currentMove, onJumpTo, strikeClass, squares }) {
+function GameInfo({ isHistoryAsc, onHandleSort, history, currentMove, onJumpTo, strikeClass, squares, onHandleReset }) {
     
     const player = currentMove % 2 == 0 ? "X" : "O";
     let status;
@@ -41,8 +41,11 @@ function GameInfo({ isHistoryAsc, onHandleSort, history, currentMove, onJumpTo, 
                 <h2>Game Status</h2>
                 <p>{ status }</p>
             </section>
+            <button onClick={onHandleReset}>
+                Reset Game
+            </button>
             <section id="history">
-                <h2>Previous Game History</h2>
+                <h2>Current Game History</h2>
                 <button onClick={onHandleSort}>
                     Sort: {isHistoryAsc ? "Ascending" : "Descending"}
                 </button>
