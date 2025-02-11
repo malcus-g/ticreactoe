@@ -84,6 +84,8 @@ function Game() {
             history={history}
             currentMove={currentMove}
             onJumpTo={jumpTo}
+            strikeClass={strikeClass}
+            squares={squares}
         />
     </div>
     );

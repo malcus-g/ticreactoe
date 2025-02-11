@@ -1,9 +1,24 @@
-function GameInfo({ isHistoryAsc, onHandleSort, history, currentMove, onJumpTo }) {
+function GameInfo({ isHistoryAsc, onHandleSort, history, currentMove, onJumpTo, strikeClass, squares }) {
     
+    const player = currentMove % 2 == 0 ? "X" : "O";
+    let status;
+    if(strikeClass === null && squares.includes(null)){
+        status = player === "X" ? "X's Move" : "O's Move";
+    } else {
+        if(strikeClass !== null){
+            status = player === "X" ? "O Wins!" : "X Wins!";
+        } else {
+            status = "It's a draw!";
+        }
+    }
+
     function renderMoves() {
         const moves = history.map((squares, moveNumber) => {
             let description;
-            description = moveNumber > 0 ? `Go to move #${moveNumber}` : 'Go to game start';
+            description = `Go to move #${moveNumber}`;
+            if(moveNumber === 0){
+                return;
+            }
             if(moveNumber === currentMove) {
                 return (
                 <li key={moveNumber}>
@@ -13,7 +28,7 @@ function GameInfo({ isHistoryAsc, onHandleSort, history, currentMove, onJumpTo }
             }
             return (
                 <li key={moveNumber}>
-                <button onClick={() => onJumpTo(moveNumber)}>{description}</button>
+                    <button onClick={() => onJumpTo(moveNumber)}>{description}</button>
                 </li>
             );
         });
@@ -22,10 +37,17 @@ function GameInfo({ isHistoryAsc, onHandleSort, history, currentMove, onJumpTo }
     
     return (
         <div className="game-info">
-            <button onClick={onHandleSort}>
-                Sort: {isHistoryAsc ? "Ascending" : "Descending"}
-            </button>
-            <ol>{renderMoves()}</ol>
+            <section id="status">
+                <h2>Game Status</h2>
+                <p>{ status }</p>
+            </section>
+            <section id="history">
+                <h2>Previous Game History</h2>
+                <button onClick={onHandleSort}>
+                    Sort: {isHistoryAsc ? "Ascending" : "Descending"}
+                </button>
+                <ol>{renderMoves()}</ol>
+            </section>
         </div>
     );
 }
