@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import Board from "./Board"
+import GameInfo from "./GameInfo"
 
 const winningLines = [
     // Rows
@@ -19,16 +20,17 @@ const winningLines = [
 
 function checkWinner(squares, setStrikeClass) {
     for(let i = 0; i < winningLines.length; i++) {
-      const [a, b, c] = winningLines[i].combo;
-      if(squares[a] && 
+        const [a, b, c] = winningLines[i].combo;
+        if(squares[a] && 
         squares[a] === squares[b] && 
         squares[a] === squares[c]) {
-          setStrikeClass(winningLines[i].strikeClass);
-          return;
-      }
+            setStrikeClass(winningLines[i].strikeClass);
+            return;
+        }
     }
+    setStrikeClass(null);
     return null;
-  }
+}
 
 function Game() {
 
@@ -41,7 +43,8 @@ function Game() {
 
     useEffect(() => {
         checkWinner(squares, setStrikeClass);
-      }, [squares]);
+      }, [squares, currentMove]);
+
 
     function handleSquareClick(i) {
         if (checkWinner(squares, setStrikeClass) || squares[i]) {
@@ -62,26 +65,6 @@ function Game() {
         setIsHistoryAsc(!isHistoryAsc);
     }
 
-    function renderMoves() {
-        const moves = history.map((squares, moveNumber) => {
-        let description;
-        description = moveNumber > 0 ? `Go to move #${moveNumber}` : 'Go to game start';
-        if(moveNumber === currentMove) {
-            return (
-            <li key={moveNumber}>
-                {description}
-            </li>
-            );
-        }
-        return (
-            <li key={moveNumber}>
-            <button onClick={() => jumpTo(moveNumber)}>{description}</button>
-            </li>
-        );
-        });
-        return isHistoryAsc ? moves : moves.reverse();
-    }
-
     function jumpTo(move) {
         setCurrentMove(move);
     }
@@ -95,12 +78,13 @@ function Game() {
             onSquareClick={handleSquareClick} 
             strikeClass={strikeClass}
         />
-        <div className="game-info">
-            <button onClick={handleSort}>
-                Sort: {isHistoryAsc ? "Ascending" : "Descending"}
-            </button>
-            <ol>{renderMoves()}</ol>
-        </div>
+        <GameInfo
+            isHistoryAsc={isHistoryAsc}
+            onHandleSort={handleSort}
+            history={history}
+            currentMove={currentMove}
+            onJumpTo={jumpTo}
+        />
     </div>
     );
 }
