@@ -1,5 +1,9 @@
 node_modules
 build
+*.local
+logs
+*.log
+
 
 .vscode/*
 !.vscode/extensions.json
