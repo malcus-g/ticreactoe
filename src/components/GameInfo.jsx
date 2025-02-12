@@ -21,14 +21,16 @@ function GameInfo({ isHistoryAsc, onHandleSort, history, currentMove, onJumpTo, 
             }
             if(moveNumber === currentMove) {
                 return (
-                <li key={moveNumber}>
+                <li className="move inactive" key={moveNumber}>
                     {description}
                 </li>
                 );
             }
             return (
-                <li key={moveNumber}>
-                    <button onClick={() => onJumpTo(moveNumber)}>{description}</button>
+                <li className="move" 
+                    onClick={() => onJumpTo(moveNumber)}
+                    key={moveNumber}>
+                        {description}
                 </li>
             );
         });
@@ -38,18 +40,17 @@ function GameInfo({ isHistoryAsc, onHandleSort, history, currentMove, onJumpTo, 
     return (
         <div className="game-info">
             <section id="status">
-                <h2>Game Status</h2>
                 <p>{ status }</p>
             </section>
-            <button onClick={onHandleReset}>
+            <button id="reset" onClick={onHandleReset}>
                 Reset Game
             </button>
             <section id="history">
                 <h2>Current Game History</h2>
-                <button onClick={onHandleSort}>
+                <button id="sort" onClick={onHandleSort}>
                     Sort: {isHistoryAsc ? "Ascending" : "Descending"}
                 </button>
-                <ol>{renderMoves()}</ol>
+                <ul id="move-list">{renderMoves()}</ul>
             </section>
         </div>
     );
