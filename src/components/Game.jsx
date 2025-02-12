@@ -47,7 +47,7 @@ function Game() {
 
 
     function handleSquareClick(i) {
-        if (checkWinner(squares, setStrikeClass) || squares[i]) {
+        if (strikeClass || squares[i]) {
             return;
         }
         const newSquares = [...squares];
